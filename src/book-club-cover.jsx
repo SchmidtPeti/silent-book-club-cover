@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 
 const DEFAULT_EVENTS = [
-  { date: "2026.02.19", day: "Thursday", lang: "Hungarian", title: "Budapest Silent Book Club" },
-  { date: "2026.02.28", day: "Saturday", lang: "English", title: "Budapest Silent Book Club" },
-  { date: "2026.03.05", day: "Thursday", lang: "Hungarian", title: "Budapest Silent Book Club" },
-  { date: "2026.03.14", day: "Saturday", lang: "English", title: "Budapest Silent Book Club" },
-  { date: "2026.03.19", day: "Thursday", lang: "Hungarian", title: "Budapest Silent Book Club" },
+  { date: "2026.03.26", day: "Thursday", lang: "English", title: "Monthly Book Club - The Body Keeps the Score", location: "Altair Teaház" },
+  { date: "2026.03.28", day: "Saturday", lang: "English", title: "Budapest Silent Book Club 108", location: "FSZEK Teréz krt." },
+  { date: "2026.04.02", day: "Thursday", lang: "Hungarian", title: "Csendes Könyvklub", location: "FSZEK Központi Könyvtár / Ötpacsirta 4." },
+  { date: "2026.04.11", day: "Saturday", lang: "English", title: "Budapest Silent Book Club 109", location: "FSZEK Teréz krt." },
+  { date: "2026.04.16", day: "Thursday", lang: "Hungarian", title: "Csendes Könyvklub", location: "FSZEK Központi Könyvtár / Ötpacsirta 4." },
 ];
 
 const FORMATS = {
@@ -102,7 +102,7 @@ export default function BookClubCover() {
     setEvents((prev) => prev.map((e, i) => (i === idx ? { ...e, [field]: value } : e)));
   };
   const addEvent = () => {
-    setEvents((prev) => [...prev, { date: "2026.00.00", day: "Day", lang: "Hungarian", title: "Budapest Silent Book Club" }]);
+    setEvents((prev) => [...prev, { date: "2026.00.00", day: "Nap", lang: "Hungarian", title: "Esemény neve", location: "Helyszín" }]);
   };
   const removeEvent = (idx) => {
     setEvents((prev) => prev.filter((_, i) => i !== idx));
@@ -205,6 +205,11 @@ export default function BookClubCover() {
       ctx.textAlign = "right";
       ctx.fillText(ev.title, boxX + boxW - 36 * s, y);
 
+      ctx.fillStyle = "#6a5a3a";
+      ctx.font = `italic ${Math.round(16 * s)}px Georgia, serif`;
+      ctx.textAlign = "left";
+      ctx.fillText(ev.location, boxX + 36 * s, y + 22 * s);
+
       if (i < events.length - 1) {
         ctx.strokeStyle = "rgba(200,184,138,0.35)";
         ctx.lineWidth = 1 * s;
@@ -292,11 +297,12 @@ export default function BookClubCover() {
             <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", background: "#fff", padding: "10px 12px", borderRadius: 10, border: "1px solid #e8e0d0", marginBottom: 8 }}>
               <input value={ev.date} onChange={(e) => updateEvent(i, "date", e.target.value)} style={{ ...smInput, width: 110 }} placeholder="Dátum" />
               <input value={ev.day} onChange={(e) => updateEvent(i, "day", e.target.value)} style={{ ...smInput, width: 100 }} placeholder="Nap" />
-              <select value={ev.lang} onChange={(e) => updateEvent(i, "lang", e.target.value)} style={{ ...smInput, width: 120, cursor: "pointer" }}>
-                <option value="Hungarian">Hungarian</option>
-                <option value="English">English</option>
+              <select value={ev.lang} onChange={(e) => updateEvent(i, "lang", e.target.value)} style={{ ...smInput, width: 100, cursor: "pointer" }}>
+                <option value="Hungarian">Magyar</option>
+                <option value="English">Angol</option>
               </select>
               <input value={ev.title} onChange={(e) => updateEvent(i, "title", e.target.value)} style={{ ...smInput, flex: 1, minWidth: 140 }} placeholder="Cím" />
+              <input value={ev.location} onChange={(e) => updateEvent(i, "location", e.target.value)} style={{ ...smInput, flex: 1, minWidth: 120 }} placeholder="Helyszín" />
               <button onClick={() => removeEvent(i)} style={{ background: "none", border: "none", color: "#c44", fontSize: 20, cursor: "pointer", padding: "0 6px" }}>×</button>
             </div>
           ))}
